@@ -31,10 +31,10 @@ You'll see an openai-env folder has been added to the directory with all of the 
 To run your code, in the command line run (change the file name if necessary):
 
 On a Mac:
-`python3 chatbot.py`
+`python3 assistant.py`
 
 On Windows:
-`python chatbot.py`
+`python assistant.py`
 
 <br>
 When finished, close the virtual environment by running: 
