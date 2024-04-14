@@ -18,7 +18,7 @@ On Windows:
 `openai-env\Scripts\activate`
 
 <br>
-Once the virtual environment is activated, the beginning of your terminal prompt should display **(openai-env)**.
+Once the virtual environment is activated, the beginning of your terminal prompt should display (openai-env).
 
 <br>
 Install the OpenAI API library by running (in both a Mac and Windows):
