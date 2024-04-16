@@ -3,6 +3,7 @@ import random
 from openai import OpenAI
 import logging
 import datetime
+import re
 
 log = logging.getLogger("assistant")
 
@@ -38,18 +39,38 @@ def get_message(run_status):
             thread_id = thread.id
         )
         message = thread_messages.data[0].content[0].text.value
+        
+        if thread_messages.data[0].content[0].text.annotations:
+            pattern = r'【\d+†source】'
+            message = re.sub(pattern, '', message)
+
 
     if run_status in ["cancelled", "failed", "expired"]:
         message = "An error has occurred, please try again."
     
     return message
 
-assistant = client.beta.assistants.create(
-    name = "Study Buddy",
-    model = "gpt-3.5-turbo",
-    instructions = "You are a study partner for students who are newer to technology. When you answer prompts, do so with simple language suitable for someone learning fundamental concepts.",
-    tools=[]
-)
+# Replace "asst_yournewassistantID" with your assistant ID
+assistant = client.beta.assistants.retrieve(assistant_id = "asst_yournewassistantID")
+
+# Code adding in the lesson but then removed.
+# print(assistant)
+# exit()
+
+# Replace "file-fileID" and "file-fileID2" with your file IDs
+# assistant = client.beta.assistants.update(
+#     assistant_id = assistant.id,
+#     file_ids=[
+#         "file-fileID",
+#         "file-fileID"
+#     ]
+# )
+
+# Replace "asst_yournewassistantID" with your assistant ID
+# assistant_files = client.beta.assistants.files.list("asst_yournewassistantID")
+# print(assistant_files)
+# exit()
+
 
 thread = client.beta.threads.create()
 
@@ -57,7 +78,10 @@ user_input = ""
 
 while True:
     if (user_input == ""):
-        user_input = input("Assistant: Hello there! Just so you know, you can type exit to end our chat. What's your name? ")
+        print("Assistant: Hello there! Just so you know, you can type exit to end our chat. What's your name? ")
+        name = input("You: ")
+        print("Assistant: Hey, " + name + "! How can I help you?")
+        user_input = input("You: ")
     else:
         user_input = input("You: ")
 
