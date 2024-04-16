@@ -15,7 +15,7 @@ def process_run(thread_id, assistant_id):
         thread_id = thread_id,
         assistant_id = assistant_id
     )
-    
+
     phrases = ["Thinking", "Pondering", "Dotting the i's", "Achieving world peace"]
 
     while True:
@@ -27,10 +27,22 @@ def process_run(thread_id, assistant_id):
         )
         if run_check.status in ["cancelled", "failed", "completed", "expired"]:
             return run_check
-          
+
 def log_run(run_status):
     if run_status in ["cancelled", "failed", "expired"]:
         log.error(str(datetime.datetime.now()) + " Run " + run_status + "\n")
+
+def get_message(run_status):
+    if run_status == "completed":
+        thread_messages = client.beta.threads.messages.list(
+            thread_id = thread.id
+        )
+        message = thread_messages.data[0].content[0].text.value
+
+    if run_status in ["cancelled", "failed", "expired"]:
+        message = "An error has occurred, please try again."
+    
+    return message
 
 assistant = client.beta.assistants.create(
     name = "Study Buddy",
@@ -50,6 +62,7 @@ while True:
         user_input = input("You: ")
 
     if user_input.lower() == "exit":
+        print("Goodbye!")
         break
 
     message = client.beta.threads.messages.create(
@@ -59,25 +72,9 @@ while True:
     )
 
     run = process_run(thread.id, assistant.id)
-    
+
     log_run(run.status)
 
-    if run.status == "completed":
-        thread_messages = client.beta.threads.messages.list(
-            thread_id = thread.id
-        )
-        print("\nAssistant: " + thread_messages.data[0].content[0].text.value + "\n")
+    message = get_message(run.status)
 
-    if run.status in ["cancelled", "failed", "expired"]:
-        print("\nAssistant: An error has occurred, please try again.\n")
-
-
-# commented out code - may be helpful if completing the OTHER OPTIONAL THINGS TO TRY section
-# thread_messages = client.beta.threads.messages.list(
-#     thread_id = thread.id
-# )
-
-# message_for_user = thread_messages.data[0].content[0].text.value
-
-# # print("\nAssistant: " + message_for_user + "\n")
-
+    print("\nAssistant: " + message + "\n")
