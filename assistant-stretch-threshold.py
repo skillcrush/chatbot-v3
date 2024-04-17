@@ -49,6 +49,13 @@ def get_message(run_status):
     
     return message
 
+def check_category_scores(categories, threshold):
+    for key, value in categories:
+        if value > threshold:
+            return True
+        else:
+            return False
+    
 # Replace "asst_yournewassistantID" with your assistant ID
 assistant = client.beta.assistants.retrieve(assistant_id = "asst_yournewassistantID")
 
@@ -72,17 +79,17 @@ while True:
     moderation_result = client.moderations.create(
         input = user_input
     )
-    while moderation_result.results[0].flagged == True:
-        print("Assistant: Sorry, your message violated our community guidelines. Please try another prompt.")
+    
+    while check_category_scores(moderation_result.results[0].category_scores, 0.7) or moderation_result.results[0].flagged == True:
+        print("Assistant: Sorry, your message violated our community guidelines. Please try a different prompt.")
         user_input = input("You: ")
+        if user_input.lower() == "exit":
+            print("Goodbye!")
+            exit()
         moderation_result = client.moderations.create(
             input = user_input
         )
-        
-    # Print the moderation result and exit. You'll remove these lines later.
-    # print(moderation_result)
-    # exit()
-    
+ 
     message = client.beta.threads.messages.create(
         thread_id = thread.id,
         role = "user",
@@ -96,3 +103,5 @@ while True:
     message = get_message(run.status)
 
     print("\nAssistant: " + message + "\n")
+
+

@@ -72,17 +72,19 @@ while True:
     moderation_result = client.moderations.create(
         input = user_input
     )
-    while moderation_result.results[0].flagged == True:
-        print("Assistant: Sorry, your message violated our community guidelines. Please try another prompt.")
+
+    hate_threshold = 0.98
+    
+    while moderation_result.results[0].category_scores.hate > hate_threshold or moderation_result.results[0].flagged == True:
+        print("Assistant: Sorry, your message violated our community guidelines. Please try a different prompt.")
         user_input = input("You: ")
+        if user_input.lower() == "exit":
+            print("Goodbye!")
+            break
         moderation_result = client.moderations.create(
             input = user_input
         )
-        
-    # Print the moderation result and exit. You'll remove these lines later.
-    # print(moderation_result)
-    # exit()
-    
+ 
     message = client.beta.threads.messages.create(
         thread_id = thread.id,
         role = "user",
