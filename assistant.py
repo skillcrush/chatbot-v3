@@ -51,25 +51,7 @@ def get_message(run_status):
     return message
 
 # Replace "asst_yournewassistantID" with your assistant ID
-assistant = client.beta.assistants.retrieve(assistant_id = "asst_yournewassistantID")
-
-# Code adding in the lesson but then removed.
-# print(assistant)
-# exit()
-
-# Replace "file-fileID" and "file-fileID2" with your file IDs
-# assistant = client.beta.assistants.update(
-#     assistant_id = assistant.id,
-#     file_ids=[
-#         "file-fileID",
-#         "file-fileID"
-#     ]
-# )
-
-# Replace "asst_yournewassistantID" with your assistant ID
-# assistant_files = client.beta.assistants.files.list("asst_yournewassistantID")
-# print(assistant_files)
-# exit()
+assistant = client.beta.assistants.retrieve(assistant_id = "asst_FUTO5sCQkGFaK9UAjLCGaWuq")
 
 
 thread = client.beta.threads.create()
@@ -88,6 +70,21 @@ while True:
     if user_input.lower() == "exit":
         print("Goodbye!")
         break
+    
+    moderation_result = client.moderations.create(
+        input = user_input
+    )
+
+    while moderation_result.results[0].flagged == True:
+        print("Assistant: Sorry, your message violated our community guidelines. Please try a different prompt.")
+        user_input = input("You: ")
+        moderation_result = client.moderations.create(
+            input = user_input
+        )
+
+    # Print the moderation result and exit. You'll remove these lines later.
+    # print(moderation_result)
+    # exit()
 
     message = client.beta.threads.messages.create(
         thread_id = thread.id,
