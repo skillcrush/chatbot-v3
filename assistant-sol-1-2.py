@@ -33,8 +33,8 @@ def log_run(run_status):
     if run_status in ["cancelled", "failed", "expired"]:
         log.error(str(datetime.datetime.now()) + " Run " + run_status + "\n")
 
-def get_message(run):
-    if run.status == "completed":
+def get_message(run_status):
+    if run_status == "completed":
         thread_messages = client.beta.threads.messages.list(
             thread_id = thread.id
         )
@@ -44,13 +44,13 @@ def get_message(run):
             pattern = r'【\d+†source】'
             message = re.sub(pattern, '', message)
 
-    if run.status in ["cancelled", "failed", "expired"]:
+    if run_status in ["cancelled", "failed", "expired"]:
         message = "An error has occurred, please try again."
     
     return message
 
 ##### Replace "asst_yournewassistantID" with your assistant ID
-assistant = client.beta.assistants.retrieve(assistant_id = "asst_FUTO5sCQkGFaK9UAjLCGaWuq")
+assistant = client.beta.assistants.retrieve(assistant_id = "asst_yournewassistantID")
 
 thread = client.beta.threads.create()
 
@@ -93,6 +93,6 @@ while True:
 
     log_run(run.status)
 
-    message = get_message(run)
+    message = get_message(run.status)
 
     print("\nAssistant: " + message + "\n")

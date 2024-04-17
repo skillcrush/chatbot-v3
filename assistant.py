@@ -51,7 +51,7 @@ def get_message(run_status):
     return message
 
 # Replace "asst_yournewassistantID" with your assistant ID
-assistant = client.beta.assistants.retrieve(assistant_id = "asst_FUTO5sCQkGFaK9UAjLCGaWuq")
+assistant = client.beta.assistants.retrieve(assistant_id = "asst_yournewassistantID")
 
 
 thread = client.beta.threads.create()
