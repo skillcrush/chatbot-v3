@@ -67,7 +67,7 @@ while True:
 
     if user_input.lower() == "exit":
         print("Goodbye!")
-        break
+        exit()
 
     moderation_result = client.moderations.create(
         input = user_input
@@ -80,7 +80,7 @@ while True:
         user_input = input("You: ")
         if user_input.lower() == "exit":
             print("Goodbye!")
-            break
+            exit()
         moderation_result = client.moderations.create(
             input = user_input
         )

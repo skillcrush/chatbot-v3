@@ -57,7 +57,7 @@ def check_category_scores(categories, threshold):
             return False
     
 # Replace "asst_yournewassistantID" with your assistant ID
-assistant = client.beta.assistants.retrieve(assistant_id = "asst_yournewassistantID")
+assistant = client.beta.assistants.retrieve(assistant_id = "asst_FUTO5sCQkGFaK9UAjLCGaWuq")
 
 thread = client.beta.threads.create()
 
@@ -74,7 +74,7 @@ while True:
 
     if user_input.lower() == "exit":
         print("Goodbye!")
-        break
+        exit()
 
     moderation_result = client.moderations.create(
         input = user_input
