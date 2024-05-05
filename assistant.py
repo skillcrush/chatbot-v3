@@ -63,7 +63,7 @@ while True:
 
     if user_input.lower() == "exit":
         print("Goodbye!")
-        break
+        exit()
 
     message = client.beta.threads.messages.create(
         thread_id = thread.id,
