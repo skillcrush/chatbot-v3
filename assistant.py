@@ -32,7 +32,7 @@ while True:
         run_id = run.id
     )
     if run_check.status == "completed":
-        break
+        exit()
 
 thread_messages = client.beta.threads.messages.list(
     thread_id = thread.id
