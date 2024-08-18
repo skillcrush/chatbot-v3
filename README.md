@@ -15,7 +15,7 @@ On a Mac:
 `source openai-env/bin/activate`
 
 On Windows:
-`openai-env\Scripts\activate`
+`source openai-env/Scripts/activate`
 
 <br>
 Once the virtual environment is activated, the beginning of your terminal prompt should display (openai-env).
@@ -23,7 +23,7 @@ Once the virtual environment is activated, the beginning of your terminal prompt
 <br>
 Install the OpenAI API library by running (in both a Mac and Windows):
 
-`pip install --upgrade openai` 
+`pip install --upgrade openai`
 
 You'll see an openai-env folder has been added to the directory with all of the installed dependencies.
 
@@ -37,9 +37,6 @@ On Windows:
 `python assistant.py`
 
 <br>
-When finished, close the virtual environment by running: 
+When finished, close the virtual environment by running:
 
 `deactivate`
-
-
-
