@@ -57,19 +57,19 @@ assistant = client.beta.assistants.retrieve(assistant_id = "asst_yournewassistan
 # print(assistant)
 # exit()
 
-# Replace "file-fileID" and "file-fileID2" with your file IDs
-# assistant = client.beta.assistants.update(
-#     assistant_id = assistant.id,
-#     file_ids=[
-#         "file-fileID",
-#         "file-fileID"
-#     ]
+# Replace "vs_yourvectorstoreID" with your vector store ID
+# Replace "file-fileID" with your file ID
+# file = client.beta.vector_stores.files.create_and_poll(
+#  vector_store_id="vs_yourvectorstoreID",
+#  file_id="file-fileID"
 # )
 
-# Replace "asst_yournewassistantID" with your assistant ID
-# assistant_files = client.beta.assistants.files.list("asst_yournewassistantID")
-# print(assistant_files)
+
+# Replace "vs_yourvectorstoreID" with your vector store ID
+# vector_store_files = client.beta.vector_stores.files.list(vector_store_id="vs_yourvectorstoreID")
+# print(vector_store_files)
 # exit()
+# End of code adding in the lesson but then removed.
 
 
 thread = client.beta.threads.create()
